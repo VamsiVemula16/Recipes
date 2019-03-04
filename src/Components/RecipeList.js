@@ -5,7 +5,7 @@ export default class RecipeList extends Component {
   render() {
     const { recipes, handleDetails } = this.props;
     const { handleChange, handleSubmit, search, error } = this.props;
-
+    console.log(error);
     return (
       <React.Fragment>
         <RecipeSearch

@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
-import { recipes } from "./tempList";
 import RecipeList from "./Components/RecipeList";
 import RecipeDetails from "./Components/RecipeDetails";
-import RecipeSearch from "./Components/RecipeSearch";
 class App extends Component {
   state = {
-    recipes: recipes,
+    recipes: [],
     base_url:
       "https://www.food2fork.com/api/search?key=8d2045d526a4a0f2dd70efdbf600b111",
     url:
@@ -22,10 +20,10 @@ class App extends Component {
     try {
       const data = await fetch(this.state.url);
       const jsonData = await data.json();
-
-      if (jsonData.count === 0) {
+      console.log(jsonData);
+      if (jsonData.count === 0 || jsonData.error) {
         this.setState(() => {
-          return { error: "sorry but your search did not return any results" };
+          return { error: "Sorry, No Data found for search" };
         });
       } else {
         this.setState(() => {
@@ -38,7 +36,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    //this.getRecipes();
+    this.getRecipes();
   }
 
   displayPage = index => {
@@ -51,7 +49,7 @@ class App extends Component {
             value={this.state.search}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
-            error={this.error}
+            error={this.state.error}
           />
         );
 
